@@ -201,7 +201,7 @@ function Home() {
         </div>
       </section>
 
-      {/* The new Interactive Impact Dashboard */}
+      {/* The Interactive Impact Dashboard */}
       <ImpactDashboard />
 
       <section className="section alt">
