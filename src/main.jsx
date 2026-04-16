@@ -19,9 +19,8 @@ function useRoute() {
   return route;
 }
 
-function LinkButton({ href, children, variant = 'dark', external }) {
-  const props = external ? { target: '_blank', rel: 'noreferrer' } : {};
-  return <a className={`btn ${variant}`} href={href} {...props}>{children}</a>;
+function LinkButton({ href, children, variant = 'dark' }) {
+  return <a className={`btn ${variant}`} href={href} target="_blank" rel="noreferrer">{children}</a>;
 }
 
 function Header({ route }) {
@@ -50,7 +49,7 @@ function CaseCard({ item }) {
         {item.metrics.slice(0, 3).map((tag) => <span className="tag" key={tag}>{tag}</span>)}
       </div>
       <div style={{ display: 'flex', gap: '12px' }}>
-        <LinkButton href={`#/case/${item.id}`} variant="secondary">View Details</LinkButton>
+        <a className="btn secondary" href={`#/case/${item.id}`}>View Details</a>
       </div>
     </article>
   );
@@ -66,8 +65,8 @@ function Home() {
             Hi, I'm Ayush. I'm a communications specialist and brand strategist with over five years of experience. From B2B tech and enterprise SaaS to fast-growing education platforms, I bridge the gap between technical features and human narratives.
           </p>
           <div className="hero-actions">
-            <LinkButton href="#/work" variant="dark">View Selected Work</LinkButton>
-            <LinkButton href="#/contact" variant="secondary">Get in Touch</LinkButton>
+            <a className="btn dark" href="#/work">View Selected Work</a>
+            <a className="btn secondary" href="#/contact">Get in Touch</a>
           </div>
         </div>
       </section>
@@ -120,7 +119,7 @@ function Home() {
             {cases.slice(0, 3).map((item) => <CaseCard key={item.id} item={item} />)}
           </div>
           <div style={{ marginTop: '40px' }}>
-             <LinkButton href="#/work" variant="secondary">View All Experience</LinkButton>
+             <a className="btn secondary" href="#/work">View All Experience</a>
           </div>
         </div>
       </section>
@@ -158,8 +157,8 @@ function CaseDetail({ id }) {
           <h1>{item.title}</h1>
           <p className="lede">{item.role}</p>
           <div className="hero-actions">
-            <LinkButton href="#/work" variant="secondary">Back to Work</LinkButton>
-            {item.links[0] && <LinkButton href={item.links[0].href} variant="dark" external={!item.links[0].local}>{item.links[0].label}</LinkButton>}
+            <a className="btn secondary" href="#/work">Back to Work</a>
+            {item.links[0] && <LinkButton href={item.links[0].href} variant="dark">{item.links[0].label}</LinkButton>}
           </div>
         </div>
       </section>
@@ -183,7 +182,7 @@ function CaseDetail({ id }) {
               <p style={{ fontSize: '0.9rem', color: 'var(--soft)' }}>Assets related to this project.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
                 {item.links.map((link) => (
-                  <a key={link.label} href={link.href} target={link.local ? undefined : '_blank'} rel={link.local ? undefined : 'noreferrer'} className="source-link">
+                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className="source-link" download={link.href.includes('.docx') || link.href.includes('.pdf') ? "true" : undefined}>
                     {link.label} ↗
                   </a>
                 ))}
