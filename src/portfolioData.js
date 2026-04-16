@@ -19,8 +19,8 @@ export const cases = [
     links: [
       { label: 'Yotta home', href: 'https://yotta.com/' },
       { label: 'Yotta press room', href: 'https://yotta.com/press-release/' },
-      { label: 'GTM DOCX', href: 'assets/yotta-week-1-gtm.docx', local: true },
-      { label: 'Reel script DOCX', href: 'assets/yotta-reel-script.docx', local: true }
+      { label: 'GTM DOCX', href: '/aayush-portfolio/assets/yotta-week-1-gtm.docx' },
+      { label: 'Reel script DOCX', href: '/aayush-portfolio/assets/yotta-reel-script.docx' }
     ]
   },
   {
@@ -78,7 +78,7 @@ export const cases = [
     links: [
       { label: 'Skills Factor', href: 'https://www.edubridgeindia.com/skills-factor' },
       { label: 'EduBridge LinkedIn', href: 'https://in.linkedin.com/company/edubridgelearning' },
-      { label: 'Social portfolio PDF', href: 'assets/social-media-portfolio.pdf', local: true }
+      { label: 'Social portfolio PDF', href: '/aayush-portfolio/assets/social-media-portfolio.pdf' }
     ]
   },
   {
