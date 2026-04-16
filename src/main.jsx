@@ -72,6 +72,46 @@ function Home() {
         </div>
       </section>
 
+      <section className="section alt" id="about-me">
+        <div className="shell">
+          <h2>Strategic Marketing Manager & Brand Strategist</h2>
+          <p style={{ marginTop: '24px' }}>
+            I am a results-driven Marketing & Communications professional based in Mumbai, orchestrating Go-To-Market (GTM) strategies, enterprise communications, and brand positioning across the B2B SaaS, IT, and D2C sectors. I specialize in translating complex product architectures into compelling narratives that drive stakeholder alignment and audience engagement.
+          </p>
+          <p>
+            My approach combines data-led strategy with a deep appreciation for creative direction. Beyond corporate communications and scaling digital growth, my creative vision extends into high-fashion aesthetics, cinematic photography, and music production. This multidisciplinary background allows me to bring a unique, highly aesthetic, and deeply strategic perspective to every brand I build—including independent ventures like Arki Ayurveda and Analytics of India.
+          </p>
+          <div style={{ marginTop: '32px' }}>
+            <h3>Education & Certifications</h3>
+            <ul style={{ paddingLeft: '20px', color: 'var(--text)', marginTop: '12px' }}>
+              <li>Bachelor of Arts in Multimedia and Mass Communication (BAMMC) – Reena Mehta College (2021)</li>
+              <li>Certifications: Google Analytics Individual Qualification (GAIQ), HubSpot Inbound Marketing</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" id="ai-mastery">
+        <div className="shell">
+          <h2>AI Integration & Workflow Automation</h2>
+          <p style={{ color: 'var(--soft)', marginTop: '8px', marginBottom: '32px' }}>Leveraging advanced tools to bridge the gap between creative direction and rapid technical execution.</p>
+          <div className="case-grid" style={{ marginTop: '0' }}>
+            <div style={{ padding: '24px', border: '1px solid var(--line)', borderRadius: 'var(--radius)' }}>
+              <h3 style={{ marginTop: 0 }}>Prompt Engineering</h3>
+              <p style={{ margin: 0, fontSize: '0.95rem' }}>Expert in crafting architectural prompts to streamline content strategy, draft high-converting copy, and optimize brand positioning at scale.</p>
+            </div>
+            <div style={{ padding: '24px', border: '1px solid var(--line)', borderRadius: 'var(--radius)' }}>
+              <h3 style={{ marginTop: 0 }}>Technical Web Automation</h3>
+              <p style={{ margin: 0, fontSize: '0.95rem' }}>Utilizing AI coding assistants to accelerate the development, deployment, and structural philosophy of data-structured platforms.</p>
+            </div>
+            <div style={{ padding: '24px', border: '1px solid var(--line)', borderRadius: 'var(--radius)' }}>
+              <h3 style={{ marginTop: 0 }}>Creative AI Generation</h3>
+              <p style={{ margin: 0, fontSize: '0.95rem' }}>Leveraging advanced models for cinematic editorial and luxury aesthetics, bypassing traditional technical bottlenecks.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="section alt">
         <div className="shell">
           <h2>Featured Work</h2>
@@ -79,19 +119,8 @@ function Home() {
           <div className="case-grid">
             {cases.slice(0, 3).map((item) => <CaseCard key={item.id} item={item} />)}
           </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="shell">
-          <h2>Core Capabilities</h2>
-          <div className="case-grid" style={{ marginTop: '32px' }}>
-            {capabilities.map(([title, text]) => (
-              <div key={title} style={{ padding: '24px', border: '1px solid var(--line)', borderRadius: 'var(--radius)' }}>
-                <h3 style={{ marginTop: 0 }}>{title}</h3>
-                <p style={{ margin: 0, fontSize: '0.95rem' }}>{text}</p>
-              </div>
-            ))}
+          <div style={{ marginTop: '40px' }}>
+             <LinkButton href="#/work" variant="secondary">View All Experience</LinkButton>
           </div>
         </div>
       </section>
@@ -104,8 +133,8 @@ function Work() {
     <main className="route-view">
       <section className="hero" style={{ paddingBottom: '40px' }}>
         <div className="shell">
-          <h1>Work & Proof</h1>
-          <p className="lede">Case studies, strategies, and the raw documents that powered them.</p>
+          <h1>Work & Experience</h1>
+          <p className="lede">Complete professional history, case studies, and the raw documents that powered them.</p>
         </div>
       </section>
       <section className="section alt">
@@ -148,17 +177,19 @@ function CaseDetail({ id }) {
             <h2 style={{ marginBottom: '16px' }}>The Impact</h2>
             <p>{item.impact}</p>
           </div>
-          <div className="source-card">
-            <h3>Source Files</h3>
-            <p style={{ fontSize: '0.9rem', color: 'var(--soft)' }}>Links and documents related to this project.</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
-              {item.links.map((link) => (
-                <a key={link.label} href={link.href} target={link.local ? undefined : '_blank'} rel={link.local ? undefined : 'noreferrer'} className="source-link">
-                  {link.label} ↗
-                </a>
-              ))}
+          {item.links.length > 0 && (
+            <div className="source-card">
+              <h3>Source Files & Links</h3>
+              <p style={{ fontSize: '0.9rem', color: 'var(--soft)' }}>Assets related to this project.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
+                {item.links.map((link) => (
+                  <a key={link.label} href={link.href} target={link.local ? undefined : '_blank'} rel={link.local ? undefined : 'noreferrer'} className="source-link">
+                    {link.label} ↗
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
     </main>
