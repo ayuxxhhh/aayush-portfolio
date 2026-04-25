@@ -26,7 +26,7 @@ const mediaIcon = {
   doc: 'DOC',
   image: 'IMG',
   video: 'VID',
-  note: 'TXT'
+  note: 'TXT',
   bundle: 'DRV'
 };
 
