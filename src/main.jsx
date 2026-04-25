@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { cases, capabilities, freelanceCases, quickTabs } from './portfolioData.js';
 import { cases, capabilities, driveRoot, freelanceCases } from './portfolioData.js';
 import './styles.css';
 
@@ -25,6 +26,7 @@ const mediaIcon = {
   doc: 'DOC',
   image: 'IMG',
   video: 'VID',
+  note: 'TXT'
   bundle: 'DRV'
 };
 
@@ -48,6 +50,31 @@ function Header({ route }) {
   );
 }
 
+function AssetPreview({ asset }) {
+  const content = (
+    <>
+      <div className="mini-asset-top">
+        <span>{mediaIcon[asset.type] || '↗'} {asset.type}</span>
+      </div>
+      <strong>{asset.label}</strong>
+      <small>{asset.note}</small>
+    </>
+  );
+
+  if (asset.href) {
+    return (
+      <a href={asset.href} target="_blank" rel="noreferrer" className="mini-asset-card">
+        {content}
+      </a>
+    );
+  }
+
+  return <div className="mini-asset-card static">{content}</div>;
+}
+
+function CaseCard({ item, category = 'Experience' }) {
+  const [expanded, setExpanded] = useState(false);
+
 function CaseCard({ item, category = 'Experience' }) {
   return (
     <article className="case-card">
@@ -60,6 +87,8 @@ function CaseCard({ item, category = 'Experience' }) {
       <div className="tags">
         {item.metrics.slice(0, 3).map((tag) => <span className="tag" key={tag}>{tag}</span>)}
       </div>
+
+      <div className="card-actions-row">
       <div className="media-mini-row">
         {item.assets?.slice(0, 3).map((asset) => (
           <span className="media-chip" key={`${item.id}-${asset.label}`}>{mediaIcon[asset.type] || '↗'} {asset.type}</span>
@@ -67,13 +96,35 @@ function CaseCard({ item, category = 'Experience' }) {
       </div>
       <div style={{ display: 'flex', gap: '12px', marginTop: '18px' }}>
         <a className="btn secondary" href={`#/case/${item.id}`}>View Details</a>
+        <button type="button" className="btn ghost" onClick={() => setExpanded(!expanded)}>
+          {expanded ? 'Hide Assets' : 'Preview Assets'}
+        </button>
       </div>
+
+      {expanded && (
+        <div className="mini-asset-grid">
+          {(item.assets || []).slice(0, 4).map((asset) => <AssetPreview key={`${item.id}-${asset.label}`} asset={asset} />)}
+        </div>
+      )}
     </article>
   );
 }
 
 function MediaCard({ asset }) {
   const downloadable = ['doc', 'pdf'].includes(asset.type);
+  const canOpen = Boolean(asset.href);
+  const Wrapper = canOpen ? 'a' : 'div';
+  const wrapperProps = canOpen
+    ? {
+      href: asset.href,
+      target: '_blank',
+      rel: 'noreferrer',
+      download: downloadable ? 'true' : undefined
+    }
+    : {};
+
+  return (
+    <Wrapper className="media-card" {...wrapperProps}>
   return (
     <a
       href={asset.href}
@@ -88,6 +139,43 @@ function MediaCard({ asset }) {
       </div>
       <h4>{asset.label}</h4>
       {asset.note && <p>{asset.note}</p>}
+      {canOpen ? <span className="media-cta">Open Asset ↗</span> : <span className="media-cta">Snapshot Only</span>}
+    </Wrapper>
+  );
+}
+
+function InteractiveQuickTabs() {
+  const [activeTab, setActiveTab] = useState(quickTabs[0].id);
+  const active = quickTabs.find((tab) => tab.id === activeTab) || quickTabs[0];
+
+  return (
+    <section className="section" id="quick-tabs">
+      <div className="shell">
+        <div className="quicktabs-header">
+          <h2>What I Build</h2>
+          <p className="section-kicker">Interactive capability map</p>
+        </div>
+        <div className="quicktabs-switcher">
+          {quickTabs.map((tab) => (
+            <button
+              key={tab.id}
+              className={`quicktab-btn ${tab.id === activeTab ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        <div className="quicktab-panel">
+          <h3>{active.headline}</h3>
+          <div className="quicktab-points">
+            {active.points.map((point) => (
+              <div key={point} className="quicktab-point">{point}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
       <span className="media-cta">Open Asset ↗</span>
     </a>
   );
@@ -136,6 +224,10 @@ function ImpactDashboard() {
         <p style={{ color: '#a0a0a0', marginBottom: '32px' }}>A look at the numbers behind the strategy.</p>
 
         <div className="impact-tabs">
+          <button className={`tab-btn ${activeTab === 'edubridge' ? 'active' : ''}`} onClick={() => setActiveTab('edubridge')}>
+            EduBridge Pivot
+          </button>
+          <button className={`tab-btn ${activeTab === 'fiteducoach' ? 'active' : ''}`} onClick={() => setActiveTab('fiteducoach')}>
           <button
             className={`tab-btn ${activeTab === 'edubridge' ? 'active' : ''}`}
             onClick={() => setActiveTab('edubridge')}
@@ -152,8 +244,8 @@ function ImpactDashboard() {
 
         <div className="impact-grid">
           <div>
-            {current.stats.map((stat, i) => (
-              <div className="stat-block" key={i}>
+            {current.stats.map((stat) => (
+              <div className="stat-block" key={stat.label}>
                 <div className="stat-number">{stat.number}</div>
                 <div className="stat-label">{stat.label}</div>
                 <div className="stat-desc">{stat.desc}</div>
@@ -162,12 +254,10 @@ function ImpactDashboard() {
           </div>
 
           <div className="chart-container">
-            <h3 style={{ marginBottom: '32px', borderBottom: '1px solid #333', paddingBottom: '16px' }}>
-              {current.title}
-            </h3>
+            <h3 style={{ marginBottom: '32px', borderBottom: '1px solid #333', paddingBottom: '16px' }}>{current.title}</h3>
             <div style={{ marginTop: '24px' }}>
-              {current.chart.map((bar, i) => (
-                <div className="bar-row" key={i}>
+              {current.chart.map((bar) => (
+                <div className="bar-row" key={bar.label}>
                   <div className="bar-label">{bar.label}</div>
                   <div className="bar-track">
                     <div className="bar-fill" style={{ width: bar.fill }}></div>
@@ -186,8 +276,9 @@ function ImpactDashboard() {
 function Home() {
   return (
     <main className="route-view">
-      <section className="hero">
+      <section className="hero hero-premium">
         <div className="shell">
+          <span className="hero-chip">Editorial Minimal · Portfolio 2026</span>
           <h1>Crafting clear, compelling stories for complex brands.</h1>
           <p className="lede">
             Hi, I&apos;m Ayush. I&apos;m a communications specialist and brand strategist with over five years of experience. From B2B tech and enterprise SaaS to fast-growing education platforms, I bridge the gap between technical features and human narratives.
@@ -198,6 +289,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <InteractiveQuickTabs />
 
       <section className="section alt" id="about-me">
         <div className="shell">
@@ -300,6 +393,7 @@ function CaseDetail({ id }) {
           <p className="lede">{item.role}</p>
           <div className="hero-actions">
             <a className="btn secondary" href="#/work">Back to Work</a>
+            {item.assets?.[0]?.href ? <LinkButton href={item.assets[0].href} variant="dark">{item.assets[0].label}</LinkButton> : null}
             {item.assets?.[0] && <LinkButton href={item.assets[0].href} variant="dark">{item.assets[0].label}</LinkButton>}
           </div>
         </div>
@@ -322,6 +416,8 @@ function CaseDetail({ id }) {
 
           {item.assets?.length > 0 && (
             <div className="source-card">
+              <h3>Source Files & Evidence</h3>
+              <p style={{ fontSize: '0.9rem', color: 'var(--soft)' }}>All available artifacts are visible right here.</p>
               <h3>Source Files & Links</h3>
               <p style={{ fontSize: '0.9rem', color: 'var(--soft)' }}>Media evidence, working files, and destination links.</p>
               <div className="media-grid">

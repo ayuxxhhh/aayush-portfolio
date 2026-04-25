@@ -1,4 +1,4 @@
-export const driveRoot = 'https://drive.google.com/drive/folders/1DHi1-EsZ7FJ7jA7hI8gcPpwv16Cv55MC?usp=sharing';
+const media = (type, label, href = '', note = '') => ({ type, label, href, note });
 
 const media = (type, label, href, note = '') => ({ type, label, href, note });
 
@@ -19,6 +19,10 @@ export const cases = [
     ],
     impact: 'Generated an estimated ₹1,000 crore pipeline influence and improved external engagement by 20%.',
     assets: [
+      media('web', 'Yotta home', 'https://yotta.com/', 'Brand and product context.'),
+      media('web', 'Press room', 'https://yotta.com/press-release/', 'Launch and announcement references.'),
+      media('doc', 'GTM strategy document', '/aayush-portfolio/assets/yotta-week-1-gtm.docx', 'Planning and messaging foundation.'),
+      media('doc', 'Reel script document', '/aayush-portfolio/assets/yotta-reel-script.docx', 'Video narrative execution.')
       media('web', 'Yotta home', 'https://yotta.com/', 'Brand and product context'),
       media('web', 'Press room', 'https://yotta.com/press-release/', 'Launch and announcement references'),
       media('doc', 'GTM strategy document', '/aayush-portfolio/assets/yotta-week-1-gtm.docx', 'Planning and messaging foundation'),
@@ -42,6 +46,8 @@ export const cases = [
     ],
     impact: 'Achieved a 4X increase in ROAS and a 150% surge in online course enrollments while optimizing CAC.',
     assets: [
+      media('pdf', 'Social media campaign portfolio', '/aayush-portfolio/assets/social-media-portfolio.pdf', 'Platform output and campaign snapshots.'),
+      media('note', 'Performance growth snapshot', '', '3X growth, 4X ROAS, and conversion-focused funnel optimization.')
       media('bundle', 'Drive evidence folder', driveRoot, 'Campaign files, screenshots, and drafts')
     ]
   },
@@ -61,6 +67,9 @@ export const cases = [
     ],
     impact: 'Generated a 3X surge in brand visibility within 8 months and enabled sales with tailored collateral.',
     assets: [
+      media('web', 'Markss official site', 'https://www.markss.com/', 'Parent brand website.'),
+      media('web', 'Retail RFID solution page', 'https://www.markss.com/solutions-retail-rfid.php', 'Solution-led messaging example.'),
+      media('note', 'ABM enablement snapshot', '', 'Rebuilt sales narratives and improved account-level relevance.')
       media('web', 'Markss official site', 'https://www.markss.com/', 'Parent brand website'),
       media('web', 'Retail RFID solution page', 'https://www.markss.com/solutions-retail-rfid.php', 'Solution-led messaging example'),
       media('bundle', 'Drive evidence folder', driveRoot, 'Supporting campaign and content examples')
@@ -82,6 +91,9 @@ export const cases = [
     ],
     impact: 'Digital pivot drove a 35% YoY increase in enrollments, 40% traffic growth, and 20% QoQ increase in qualified leads.',
     assets: [
+      media('web', 'Skills Factor page', 'https://www.edubridgeindia.com/skills-factor', 'Flagship campaign context.'),
+      media('web', 'EduBridge LinkedIn', 'https://in.linkedin.com/company/edubridgelearning', 'Brand and campaign visibility.'),
+      media('pdf', 'Social portfolio PDF', '/aayush-portfolio/assets/social-media-portfolio.pdf', 'Selected media and campaign output.')
       media('web', 'Skills Factor', 'https://www.edubridgeindia.com/skills-factor', 'Flagship campaign context'),
       media('web', 'EduBridge LinkedIn', 'https://in.linkedin.com/company/edubridgelearning', 'Brand and campaign visibility'),
       media('pdf', 'Social portfolio PDF', '/aayush-portfolio/assets/social-media-portfolio.pdf', 'Selected media and campaign output'),
@@ -103,6 +115,9 @@ export const cases = [
     ],
     impact: 'Delivered high-value campaigns that elevated digital presence and audience trust for both collaborators.',
     assets: [
+      media('web', 'Sanjeev Kapoor Instagram', 'https://www.instagram.com/sanjeevkapoor?igsh=Y2VidG80dGVpZDlj', 'Campaign and audience-facing content.'),
+      media('web', 'Sonal Holland Instagram', 'https://www.instagram.com/sonalholland_masterofwine?igsh=dXU3dnJicm5lcGk5', 'Personal brand storytelling.'),
+      media('web', 'Sonal Holland Academy', 'https://academy.sonalholland.com/wset-level-1-wine/', 'Web content and positioning outcome.')
       media('web', 'Sanjeev Kapoor Instagram', 'https://www.instagram.com/sanjeevkapoor?igsh=Y2VidG80dGVpZDlj', 'Campaign and audience-facing content'),
       media('web', 'Sonal Holland Instagram', 'https://www.instagram.com/sonalholland_masterofwine?igsh=dXU3dnJicm5lcGk5', 'Personal brand storytelling'),
       media('web', 'Sonal Holland Academy', 'https://academy.sonalholland.com/wset-level-1-wine/', 'Web content and positioning outcome'),
@@ -127,6 +142,8 @@ export const freelanceCases = [
     ],
     impact: 'Delivered polished documentation artifacts that improved client confidence and team alignment.',
     assets: [
+      media('doc', 'Websites and blog document', '/aayush-portfolio/assets/websites-and-blog.docx', 'Content planning and document structure example.'),
+      media('note', 'Documentation system note', '', 'Built reusable docs to improve consistency across deliverables.')
       media('bundle', 'Drive evidence folder', driveRoot, 'Document samples and related project material')
     ]
   },
@@ -145,6 +162,7 @@ export const freelanceCases = [
     ],
     impact: 'Delivered cleaner campaign narratives and production-ready ad assets.',
     assets: [
+      media('note', 'Creative strategy snapshot', '', 'Developed ad narratives and campaign-ready social deliverables.')
       media('bundle', 'Drive evidence folder', driveRoot, 'Ad examples, layouts, and supporting files')
     ]
   },
@@ -163,6 +181,8 @@ export const freelanceCases = [
     ],
     impact: 'Built a stronger and more consistent visual/content presence for Instagram audiences.',
     assets: [
+      media('web', 'Instagram profile', 'https://www.instagram.com/juniorbillionaire/', 'Live feed and social proof.'),
+      media('note', 'Content ops snapshot', '', 'Balanced content cadence with quality and engagement intent.')
       media('web', 'Instagram profile', 'https://www.instagram.com/juniorbillionaire/', 'Live feed and social proof'),
       media('bundle', 'Drive evidence folder', driveRoot, 'Selected creative files and campaign examples')
     ]
@@ -182,6 +202,8 @@ export const freelanceCases = [
     ],
     impact: 'Enhanced brand consistency and made content communication more engaging.',
     assets: [
+      media('web', 'Instagram profile', 'https://www.instagram.com/laundromania/', 'Live examples of social output.'),
+      media('note', 'Brand consistency snapshot', '', 'Improved feed cohesion and service-led message clarity.')
       media('web', 'Instagram profile', 'https://www.instagram.com/laundromania/', 'Live examples of social output'),
       media('bundle', 'Drive evidence folder', driveRoot, 'Campaign and creative evidence files')
     ]
@@ -201,6 +223,7 @@ export const freelanceCases = [
     ],
     impact: 'Delivered practical ad creatives and communication structures for campaign deployment.',
     assets: [
+      media('note', 'Ad concept snapshot', '', 'Created clear ad messaging for technical audiences.')
       media('bundle', 'Drive evidence folder', driveRoot, 'Ad concepts, copy drafts, and export files')
     ]
   },
@@ -219,6 +242,8 @@ export const freelanceCases = [
     ],
     impact: 'Improved content clarity and discoverability while maintaining premium brand voice.',
     assets: [
+      media('web', 'Academy website', 'https://academy.sonalholland.com/', 'Primary web content output.'),
+      media('note', 'SEO writing snapshot', '', 'Optimized blogs and page copy for intent + readability.')
       media('web', 'Academy website', 'https://academy.sonalholland.com/', 'Primary web content output'),
       media('bundle', 'Drive evidence folder', driveRoot, 'Drafts, blog examples, and supporting proofs')
     ]
@@ -238,6 +263,7 @@ export const freelanceCases = [
     ],
     impact: 'Delivered dependable communication support for mission-driven campaign initiatives.',
     assets: [
+      media('note', 'Campaign support snapshot', '', 'Supported purpose-led communication deliverables with editorial consistency.')
       media('bundle', 'Drive evidence folder', driveRoot, 'Available proofs and related deliverables')
     ]
   }
@@ -247,4 +273,31 @@ export const capabilities = [
   ['Brand & Messaging Strategy', 'Building clear positioning, launch narratives, and audience-specific language.'],
   ['Content Architecture', 'Structuring blogs, landing pages, and collateral so your team can ship effectively.'],
   ['Corporate Communications', 'Crafting internal and external comms, PR angles, and leadership messaging.']
+];
+
+export const quickTabs = [
+  {
+    id: 'strategy',
+    label: 'Strategy',
+    headline: 'Positioning systems that move from clarity to conversion.',
+    points: ['Messaging architecture for complex products', 'Audience segmentation and narrative ladders', 'Launch-ready GTM positioning blueprints']
+  },
+  {
+    id: 'content',
+    label: 'Content',
+    headline: 'Editorial execution that is premium, precise, and scalable.',
+    points: ['SEO-aware long-form and web copy', 'Social-first creative direction and scripting', 'Documentation frameworks for consistent delivery']
+  },
+  {
+    id: 'performance',
+    label: 'Performance',
+    headline: 'Data-led experimentation to improve outcomes over time.',
+    points: ['Funnel diagnostics and conversion tuning', 'Campaign-level optimization and reporting', 'Cross-channel testing with insight loops']
+  },
+  {
+    id: 'freelance',
+    label: 'Freelance',
+    headline: 'Client work across social, ads, web content, and communication.',
+    points: ['Instagram operations and campaign content', 'Website revamps and SEO publishing', 'Bespoke communication and documentation support']
+  }
 ];
