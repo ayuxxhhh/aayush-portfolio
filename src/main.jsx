@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { cases, capabilities, freelanceCases, quickTabs } from './portfolioData.js';
+import { cases, capabilities, driveRoot, freelanceCases } from './portfolioData.js';
 import './styles.css';
 
 const caseMap = Object.fromEntries([...cases, ...freelanceCases].map((item) => [item.id, item]));
@@ -26,6 +27,7 @@ const mediaIcon = {
   image: 'IMG',
   video: 'VID',
   note: 'TXT'
+  bundle: 'DRV'
 };
 
 function LinkButton({ href, children, variant = 'dark' }) {
@@ -73,6 +75,7 @@ function AssetPreview({ asset }) {
 function CaseCard({ item, category = 'Experience' }) {
   const [expanded, setExpanded] = useState(false);
 
+function CaseCard({ item, category = 'Experience' }) {
   return (
     <article className="case-card">
       <div className="card-meta-row">
@@ -86,6 +89,12 @@ function CaseCard({ item, category = 'Experience' }) {
       </div>
 
       <div className="card-actions-row">
+      <div className="media-mini-row">
+        {item.assets?.slice(0, 3).map((asset) => (
+          <span className="media-chip" key={`${item.id}-${asset.label}`}>{mediaIcon[asset.type] || '↗'} {asset.type}</span>
+        ))}
+      </div>
+      <div style={{ display: 'flex', gap: '12px', marginTop: '18px' }}>
         <a className="btn secondary" href={`#/case/${item.id}`}>View Details</a>
         <button type="button" className="btn ghost" onClick={() => setExpanded(!expanded)}>
           {expanded ? 'Hide Assets' : 'Preview Assets'}
@@ -116,6 +125,14 @@ function MediaCard({ asset }) {
 
   return (
     <Wrapper className="media-card" {...wrapperProps}>
+  return (
+    <a
+      href={asset.href}
+      target="_blank"
+      rel="noreferrer"
+      className="media-card"
+      download={downloadable ? 'true' : undefined}
+    >
       <div className="media-card-head">
         <span className="media-type">{mediaIcon[asset.type] || '↗'}</span>
         <span className="media-kind">{asset.type}</span>
@@ -159,6 +176,8 @@ function InteractiveQuickTabs() {
         </div>
       </div>
     </section>
+      <span className="media-cta">Open Asset ↗</span>
+    </a>
   );
 }
 
@@ -209,6 +228,16 @@ function ImpactDashboard() {
             EduBridge Pivot
           </button>
           <button className={`tab-btn ${activeTab === 'fiteducoach' ? 'active' : ''}`} onClick={() => setActiveTab('fiteducoach')}>
+          <button
+            className={`tab-btn ${activeTab === 'edubridge' ? 'active' : ''}`}
+            onClick={() => setActiveTab('edubridge')}
+          >
+            EduBridge Pivot
+          </button>
+          <button
+            className={`tab-btn ${activeTab === 'fiteducoach' ? 'active' : ''}`}
+            onClick={() => setActiveTab('fiteducoach')}
+          >
             FitEduCoach Scaling
           </button>
         </div>
@@ -332,6 +361,7 @@ function Work() {
               <h2>Professional Experience</h2>
               <p className="section-kicker">Core roles and long-term engagements.</p>
             </div>
+            <LinkButton href={driveRoot} variant="secondary">Open Full Drive Archive</LinkButton>
           </div>
           <div className="case-grid" style={{ marginTop: 0 }}>
             {cases.map((item) => <CaseCard key={item.id} item={item} category="Experience" />)}
@@ -364,6 +394,7 @@ function CaseDetail({ id }) {
           <div className="hero-actions">
             <a className="btn secondary" href="#/work">Back to Work</a>
             {item.assets?.[0]?.href ? <LinkButton href={item.assets[0].href} variant="dark">{item.assets[0].label}</LinkButton> : null}
+            {item.assets?.[0] && <LinkButton href={item.assets[0].href} variant="dark">{item.assets[0].label}</LinkButton>}
           </div>
         </div>
       </section>
@@ -387,6 +418,8 @@ function CaseDetail({ id }) {
             <div className="source-card">
               <h3>Source Files & Evidence</h3>
               <p style={{ fontSize: '0.9rem', color: 'var(--soft)' }}>All available artifacts are visible right here.</p>
+              <h3>Source Files & Links</h3>
+              <p style={{ fontSize: '0.9rem', color: 'var(--soft)' }}>Media evidence, working files, and destination links.</p>
               <div className="media-grid">
                 {item.assets.map((asset) => <MediaCard key={asset.label} asset={asset} />)}
               </div>
