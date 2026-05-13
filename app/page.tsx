@@ -1,63 +1,67 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useReveal } from '@/hooks/useReveal';
+import { useLayoutEffect, useRef } from 'react';
+import { Hero } from '@/components/sections/Hero';
+import { Experience } from '@/components/sections/Experience';
+import { Projects } from '@/components/sections/Projects';
+import { CustomCursor } from '@/components/ui/CustomCursor';
+import { ExperienceItem, PortfolioHeroContent, ProjectItem } from '@/types/portfolio';
 
-const cards = [
-  'Growth campaigns',
-  'Creative strategy',
-  'Performance ads',
-  'Funnel optimization'
+const heroContent: PortfolioHeroContent = {
+  eyebrow: 'Brand Strategist · Story Systems',
+  title: 'Narrative-led growth for modern products.',
+  subtitle: 'Maintainable sections with animation-safe composition and clear ownership.',
+  cta: { label: 'See projects', href: '#projects' }
+};
+
+const experience: ExperienceItem[] = [
+  { id: 'exp-1', company: 'EduBridge', role: 'Marketing Lead', period: '2023—2025', summary: 'Led GTM and comms.', highlights: ['GTM', 'Social', 'Partnerships'] }
 ];
 
-export default function HomePage() {
-  useReveal();
+const projects: ProjectItem[] = [
+  { id: 'proj-1', title: 'Scaling Content Engine', description: 'SEO and social pipeline for course launches.', stack: ['Notion', 'Meta Ads', 'GA4'] }
+];
 
-  useEffect(() => {
-    const cards = document.querySelectorAll<HTMLElement>('.glow-card');
-    const onMove = (event: MouseEvent) => {
-      cards.forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        const x = ((event.clientX - rect.left) / rect.width) * 100;
-        const y = ((event.clientY - rect.top) / rect.height) * 100;
-        card.style.setProperty('--mx', `${x}%`);
-        card.style.setProperty('--my', `${y}%`);
-      });
-    };
+function SceneBackground() {
+  return <div aria-hidden style={{ position: 'fixed', inset: 0, zIndex: -1, background: 'linear-gradient(#0f1020, #05050d)' }} />;
+}
 
-    window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
+export default function Page() {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    let cleanup: (() => void) | undefined;
+
+    (async () => {
+      const gsapModule = await import('gsap');
+      const scrollTriggerModule = await import('gsap/ScrollTrigger');
+      const gsap = gsapModule.default || gsapModule.gsap;
+      const ScrollTrigger = scrollTriggerModule.ScrollTrigger;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const sections = rootRef.current?.querySelectorAll<HTMLElement>('[data-section]') ?? [];
+      const triggers = Array.from(sections).map((section) => ScrollTrigger.create({
+        trigger: section,
+        start: 'top center',
+        end: 'bottom center',
+        toggleClass: { targets: section, className: 'is-active' }
+      }));
+
+      cleanup = () => triggers.forEach((trigger) => trigger.kill());
+    })();
+
+    return () => cleanup?.();
   }, []);
 
   return (
-    <div className="mx-auto min-h-screen max-w-6xl px-6 py-20">
-      <header className="space-y-6">
-        <p className="inline-block rounded-full border border-white/20 px-4 py-1 text-xs uppercase tracking-[0.25em] text-violet-200">
-          Digital Growth Marketer
-        </p>
-        <h1 data-reveal className="text-5xl font-semibold tracking-tight text-white md:text-7xl">
-          Building premium web experiences with motion and strategy.
-        </h1>
-        <p data-reveal className="max-w-2xl text-lg text-slate-300">
-          Next.js + Tailwind + GSAP + Three.js stack wired for smooth, cinematic portfolio storytelling.
-        </p>
-      </header>
-
-      <section className="mt-16 grid gap-6 md:grid-cols-2">
-        {cards.map((card) => (
-          <article
-            key={card}
-            data-reveal
-            className="glow-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur"
-          >
-            <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 glow-layer" />
-            <h2 className="relative z-10 text-2xl font-medium text-white">{card}</h2>
-            <p className="relative z-10 mt-3 text-slate-300">
-              Hover-reactive glow and subtle kinetic interactions for premium UX.
-            </p>
-          </article>
-        ))}
-      </section>
-    </div>
+    <>
+      <SceneBackground />
+      <CustomCursor />
+      <main ref={rootRef} style={{ display: 'grid', gap: '8rem', padding: '4rem 1.25rem 8rem' }}>
+        <div data-section><Hero content={heroContent} /></div>
+        <div data-section><Experience items={experience} /></div>
+        <div data-section id="projects"><Projects items={projects} /></div>
+      </main>
+    </>
   );
 }

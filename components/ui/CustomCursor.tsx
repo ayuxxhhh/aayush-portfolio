@@ -3,18 +3,30 @@
 import { useEffect, useState } from 'react';
 
 export function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [point, setPoint] = useState({ x: -100, y: -100 });
 
   useEffect(() => {
-    const onMove = (e: MouseEvent) => setPosition({ x: e.clientX, y: e.clientY });
+    const onMove = (event: MouseEvent) => setPoint({ x: event.clientX, y: event.clientY });
     window.addEventListener('mousemove', onMove);
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
   return (
-    <div
-      className="pointer-events-none fixed z-50 hidden h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full border border-violet-300/80 bg-violet-300/20 md:block"
-      style={{ left: position.x, top: position.y }}
+    <span
+      aria-hidden
+      style={{
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        width: 24,
+        height: 24,
+        borderRadius: '999px',
+        pointerEvents: 'none',
+        zIndex: 100,
+        transform: `translate3d(${point.x - 12}px, ${point.y - 12}px, 0)`,
+        border: '1px solid rgba(255,255,255,.7)',
+        backdropFilter: 'blur(2px)'
+      }}
     />
   );
 }
