@@ -1,18 +1,23 @@
-import type { Metadata } from 'next';
 import './globals.css';
-import Header from '@/components/layout/Header';
+import type { Metadata } from 'next';
+import { LenisProvider } from '@/components/providers/LenisProvider';
+import { SceneCanvas } from '@/components/three/SceneCanvas';
+import { CustomCursor } from '@/components/ui/CustomCursor';
 
 export const metadata: Metadata = {
-  title: 'Ayush Tiwari | Portfolio',
-  description: 'Marketing and communications portfolio'
+  title: 'Ayush Portfolio',
+  description: 'Interactive portfolio'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <Header />
-        {children}
+      <body className="bg-slate-950 text-slate-100 antialiased">
+        <LenisProvider>
+          <SceneCanvas />
+          <CustomCursor />
+          <main className="relative z-10">{children}</main>
+        </LenisProvider>
       </body>
     </html>
   );
