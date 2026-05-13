@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { cases, capabilities, freelanceCases, quickTabs } from './portfolioData.js';
+import { hero, experienceTimeline, ventures, projects, capabilities } from '../data/portfolio';
 import './styles.css';
 
-const caseMap = Object.fromEntries([...cases, ...freelanceCases].map((item) => [item.id, item]));
+const caseMap = Object.fromEntries([...experienceTimeline, ...projects, ...ventures].map((item) => [item.id, item]));
 
 function useRoute() {
   const getRoute = () => window.location.hash.replace(/^#\/?/, '') || 'home';
@@ -73,6 +73,9 @@ function AssetPreview({ asset }) {
 
 function CaseCard({ item, category = 'Experience' }) {
   const [expanded, setExpanded] = useState(false);
+  const clientName = item.client || item.organization || item.name;
+  const summary = item.summary;
+  const metrics = item.metrics || item.highlights || [];
 
   return (
     <article className="case-card">
@@ -80,10 +83,10 @@ function CaseCard({ item, category = 'Experience' }) {
         <span className="tag solid">{item.label}</span>
         <span className="meta-pill">{category}</span>
       </div>
-      <h3>{item.client}</h3>
-      <p>{item.summary}</p>
+      <h3>{clientName}</h3>
+      <p>{summary}</p>
       <div className="tags">
-        {item.metrics.slice(0, 3).map((tag) => <span className="tag" key={tag}>{tag}</span>)}
+        {metrics.slice(0, 3).map((tag) => <span className="tag" key={tag}>{tag}</span>)}
       </div>
 
       <div className="card-actions-row">
@@ -129,8 +132,8 @@ function MediaCard({ asset }) {
 }
 
 function InteractiveQuickTabs() {
-  const [activeTab, setActiveTab] = useState(quickTabs[0].id);
-  const active = quickTabs.find((tab) => tab.id === activeTab) || quickTabs[0];
+  const [activeTab, setActiveTab] = useState(capabilities[0][0]);
+  const active = capabilities.find((tab) => tab[0] === activeTab) || capabilities[0];
 
   return (
     <section className="section" id="quick-tabs">
@@ -140,23 +143,19 @@ function InteractiveQuickTabs() {
           <p className="section-kicker">Interactive capability map</p>
         </div>
         <div className="quicktabs-switcher">
-          {quickTabs.map((tab) => (
+          {capabilities.map((tab) => (
             <button
-              key={tab.id}
-              className={`quicktab-btn ${tab.id === activeTab ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
+              key={tab[0]}
+              className={`quicktab-btn ${tab[0] === activeTab ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab[0])}
             >
-              {tab.label}
+              {tab[0]}
             </button>
           ))}
         </div>
         <div className="quicktab-panel">
-          <h3>{active.headline}</h3>
-          <div className="quicktab-points">
-            {active.points.map((point) => (
-              <div key={point} className="quicktab-point">{point}</div>
-            ))}
-          </div>
+          <h3>{active[0]}</h3>
+          <div className="quicktab-points"><div className="quicktab-point">{active[1]}</div></div>
         </div>
       </div>
     </section>
@@ -250,14 +249,12 @@ function Home() {
     <main className="route-view">
       <section className="hero hero-premium">
         <div className="shell">
-          <span className="hero-chip">Editorial Minimal · Portfolio 2026</span>
-          <h1>Crafting clear, compelling stories for complex brands.</h1>
-          <p className="lede">
-            Hi, I&apos;m Ayush. I&apos;m a communications specialist and brand strategist with over five years of experience. From B2B tech and enterprise SaaS to fast-growing education platforms, I bridge the gap between technical features and human narratives.
-          </p>
+          <span className="hero-chip">{hero.chip}</span>
+          <h1>{hero.headline}</h1>
+          <p className="lede">{hero.lede}</p>
           <div className="hero-actions">
-            <a className="btn dark" href="#/work">View Selected Work</a>
-            <a className="btn secondary" href="#/contact">Get in Touch</a>
+            <a className="btn dark" href="#/work">{hero.ctaPrimary}</a>
+            <a className="btn secondary" href="#/contact">{hero.ctaSecondary}</a>
           </div>
         </div>
       </section>
@@ -305,7 +302,7 @@ function Home() {
           <h2>Featured Work</h2>
           <p style={{ color: 'var(--soft)', marginTop: '8px' }}>A selection of campaigns, GTM strategies, and brand communications.</p>
           <div className="case-grid">
-            {cases.slice(0, 3).map((item) => <CaseCard key={item.id} item={item} />)}
+            {experienceTimeline.slice(-3).map((item) => <CaseCard key={item.id} item={item} />)}
           </div>
           <div style={{ marginTop: '40px' }}>
             <a className="btn secondary" href="#/work">View All Experience</a>
@@ -335,17 +332,17 @@ function Work() {
             </div>
           </div>
           <div className="case-grid" style={{ marginTop: 0 }}>
-            {cases.map((item) => <CaseCard key={item.id} item={item} category="Experience" />)}
+            {experienceTimeline.map((item) => <CaseCard key={item.id} item={item} category="Experience" />)}
           </div>
         </div>
       </section>
 
       <section className="section">
         <div className="shell">
-          <h2>Freelance Work</h2>
-          <p className="section-kicker">Alphabetically ordered client work across social media, ads, website content, and documentation.</p>
+          <h2>Projects & Ventures</h2>
+          <p className="section-kicker">Independent projects and active venture launches.</p>
           <div className="case-grid" style={{ marginTop: '24px' }}>
-            {freelanceCases.map((item) => <CaseCard key={item.id} item={item} category="Freelance" />)}
+            {[...ventures, ...projects].map((item) => <CaseCard key={item.id} item={item} category="Project" />)}
           </div>
         </div>
       </section>
@@ -354,14 +351,16 @@ function Work() {
 }
 
 function CaseDetail({ id }) {
-  const item = caseMap[id] || cases[0];
+  const item = caseMap[id] || experienceTimeline[0];
+  const caseName = item.client || item.organization || item.name;
+  const roleLine = item.role || item.status || 'Project';
   return (
     <main className="route-view">
       <section className="hero">
         <div className="shell">
-          <span className="tag" style={{ marginBottom: '16px', display: 'inline-block' }}>{item.client}</span>
+          <span className="tag" style={{ marginBottom: '16px', display: 'inline-block' }}>{caseName}</span>
           <h1>{item.title}</h1>
-          <p className="lede">{item.role}</p>
+          <p className="lede">{roleLine}</p>
           <div className="hero-actions">
             <a className="btn secondary" href="#/work">Back to Work</a>
             {item.assets?.[0]?.href ? <LinkButton href={item.assets[0].href} variant="dark">{item.assets[0].label}</LinkButton> : null}
@@ -373,15 +372,15 @@ function CaseDetail({ id }) {
         <div className="shell case-detail-layout">
           <div>
             <h2 style={{ marginBottom: '16px' }}>The Challenge</h2>
-            <p style={{ marginBottom: '40px' }}>{item.challenge}</p>
+            <p style={{ marginBottom: '40px' }}>{item.challenge || item.summary}</p>
 
             <h2 style={{ marginBottom: '16px' }}>The Approach</h2>
             <ul style={{ marginBottom: '40px', paddingLeft: '20px', color: 'var(--text)' }}>
-              {item.work.map((line) => <li key={line} style={{ marginBottom: '12px' }}>{line}</li>)}
+              {(item.work || item.highlights || []).map((line) => <li key={line} style={{ marginBottom: '12px' }}>{line}</li>)}
             </ul>
 
             <h2 style={{ marginBottom: '16px' }}>The Impact</h2>
-            <p>{item.impact}</p>
+            <p>{item.impact || item.summary}</p>
           </div>
 
           {item.assets?.length > 0 && (
