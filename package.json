@@ -1,17 +1,24 @@
 {
-    "scripts":  {
-                    "dev":  "vite --host 127.0.0.1",
-                    "build":  "vite build",
-                    "preview":  "vite preview --host 127.0.0.1"
-                },
-    "dependencies":  {
-                         "@vitejs/plugin-react":  "latest",
-                         "vite":  "latest",
-                         "react":  "latest",
-                         "react-dom":  "latest"
-                     },
-    "devDependencies":  {
-
-                        },
-    "type":  "module"
+  "name": "aayush-portfolio",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.2.33",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.17.57",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.4.49",
+    "tailwindcss": "3.4.17",
+    "typescript": "5.7.2"
+  }
 }
