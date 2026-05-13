@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+
+:root {
+  --background: #020617;
+  --foreground: #e2e8f0;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.2), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.18), transparent 40%),
+    var(--background);
+  color: var(--foreground);
+  cursor: none;
+}
+
+.glow-card {
+  --mx: 50%;
+  --my: 50%;
+}
+
+.glow-layer {
+  background: radial-gradient(circle at var(--mx) var(--my), rgba(167, 139, 250, 0.3), transparent 35%);
+}
