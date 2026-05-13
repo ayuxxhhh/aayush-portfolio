@@ -4,6 +4,12 @@ import { experienceTimeline, projects, ventures } from '@/data/portfolio';
 
 const allCases = [...experienceTimeline, ...projects, ...ventures];
 
+export function generateStaticParams() {
+  return allCases.map((entry) => ({ id: entry.id }));
+}
+
+export const dynamicParams = false;
+
 export default async function CasePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const item = allCases.find((entry) => entry.id === id);
